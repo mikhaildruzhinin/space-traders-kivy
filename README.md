@@ -20,7 +20,7 @@ pipenv install
 >>> s.status()
 {'status': 'spacetraders is currently online and available to play'}
 >>> s.get_info()
-{'user': {'username': 'test-py-client', 'credits': 0, 'ships': [], 'loans': []}}
+{'user': {'username': 'yourUsernameHere', 'credits': 0, 'ships': [], 'loans': []}}
 ```
 
 ### Licensing
