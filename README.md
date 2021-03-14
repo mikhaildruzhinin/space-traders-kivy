@@ -18,9 +18,9 @@ pipenv install
 >>> from sdk import SpaceTraders
 >>> s = SpaceTraders('yourUsernameHere', 'yourTokenHere')
 >>> s.status()
-{'status': 'spacetraders is currently online and available to play'}
+{'response': {'user': {'username': 'test-py-client', 'credits': 0, 'ships': [], 'loans': []}}, 'status_code': 200}
 >>> s.get_info()
-{'user': {'username': 'yourUsernameHere', 'credits': 0, 'ships': [], 'loans': []}}
+{'response': {'user': {'username': 'yourUsernameHere', 'credits': 0, 'ships': [], 'loans': []}}, 'status_code': 200}
 ```
 
 ### Licensing

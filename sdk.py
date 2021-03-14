@@ -11,13 +11,13 @@ class SpaceTraders(object):
     def status(self):
         r = requests.get(f'{self.base_url}/game/status')
         r.raise_for_status()
-        data = r.json()
+        data = {'response': r.json(), 'status_code': r.status_code}
         return data
 
     def generate_token(self):
         try:
             r = requests.post(f'{self.base_url}/users/{self.username}/token')
-            data = r.json()
+            data = {'response': r.json(), 'status_code': r.status_code}
             r.raise_for_status()
             self.token = data['token']
         except requests.exceptions.HTTPError:
@@ -27,20 +27,20 @@ class SpaceTraders(object):
     def get_info(self):
         params = {'token': self.token}
         r = requests.get(f'{self.base_url}/users/{self.username}', params=params)
-        data = r.json()
+        data = {'response': r.json(), 'status_code': r.status_code}
         return data
 
     def get_loans(self):
         params = {'token': self.token}
         r = requests.get(f'{self.base_url}/game/loans', params=params)
-        data = r.json()
+        data = {'response': r.json(), 'status_code': r.status_code}
         return data
     
     def take_loan(self):
         params = {'token': self.token}
         payload = {'type': 'STARTUP'}
         r = requests.post(f'{self.base_url}/users/{self.username}/loans', params=params, json=payload)
-        data = r.json()
+        data = {'response': r.json(), 'status_code': r.status_code}
         return data
 
     def get_ships(self, class_=None):
@@ -49,7 +49,7 @@ class SpaceTraders(object):
             'class': class_,
         }
         r = requests.get(f'{self.base_url}/game/ships', params=params)
-        data = r.json()
+        data = {'response': r.json(), 'status_code': r.status_code}
         return data
 
     def buy_ship(self, location, type_):
@@ -59,7 +59,7 @@ class SpaceTraders(object):
             'type': type_,
         }
         r = requests.post(f'{self.base_url}/users/{self.username}/ships', params=params, json=payload)
-        data = r.json()
+        data = {'response': r.json(), 'status_code': r.status_code}
         return data
 
     def buy_goods(self, ship_id, good, quantity):
@@ -70,13 +70,13 @@ class SpaceTraders(object):
             'quantity': quantity,
         }
         r = requests.post(f'{self.base_url}/users/{self.username}/purchase-orders', params=params, json=payload)
-        data = r.json()
+        data = {'response': r.json(), 'status_code': r.status_code}
         return data
 
     def get_market(self, location):
         params = {'token': self.token}
         r = requests.get(f'{self.base_url}/game/locations/{location}/marketplace', params=params)
-        data = r.json()
+        data = {'response': r.json(), 'status_code': r.status_code}
         return data
 
     def get_system_map(self, system, type_=None):
@@ -85,7 +85,7 @@ class SpaceTraders(object):
             'type': type_,
         }
         r = requests.get(f'{self.base_url}/game/systems/{system}/locations', params=params)
-        data = r.json()
+        data = {'response': r.json(), 'status_code': r.status_code}
         return data
 
     def create_flight_plan(self, ship_id, destination):
@@ -95,13 +95,13 @@ class SpaceTraders(object):
             'destination': destination,
         }
         r = requests.post(f'{self.base_url}/users/{self.username}/flight-plans', params=params, json=payload)
-        data = r.json()
+        data = {'response': r.json(), 'status_code': r.status_code}
         return data
 
     def get_flight_plan(self, flight_plan_id):
         params = {'token': self.token}
         r = requests.get(f'{self.base_url}/users/{self.username}/flight-plans/{flight_plan_id}', params=params)
-        data = r.json()
+        data = {'response': r.json(), 'status_code': r.status_code}
         return data
 
     def sell_goods(self, ship_id, good, quantity):
@@ -112,11 +112,11 @@ class SpaceTraders(object):
             'quantity': quantity,
         }
         r = requests.post(f'{self.base_url}/users/{self.username}/sell-orders', params=params, json=payload)
-        data = r.json()
+        data = {'response': r.json(), 'status_code': r.status_code}
         return data
 
     def repay_loan(self, loan_id):
         params = {'token': self.token}
         r = requests.put(f'{self.base_url}/users/{self.username}/loans/{loan_id}', params=params)
-        data = r.json()
+        data = {'response': r.json(), 'status_code': r.status_code}
         return data
