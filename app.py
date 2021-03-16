@@ -16,33 +16,38 @@ class ConnectPage(GridLayout):
         self.rows = 4
 
         self.add_widget(Label(
-            text = 'Space Traders',
+            text = '[color=20dd20]Space Traders[/color]',
             height=Window.size[1] * 0.425,
             size_hint_y = None,
-            font_size=30
+            font_size=30,
+            markup=True
         ))
 
         connect_form = GridLayout(cols=2)
 
         connect_form.add_widget(Label(
-            text='Username:',
+            text='[color=20dd20]Username:[/color]',
             height=Window.size[1] * 0.05,
-            size_hint_y = None
+            size_hint_y = None,
+            markup=True
         ))
         self.username = TextInput(
             height=Window.size[1] * 0.05,
-            size_hint_y = None
+            size_hint_y = None,
+            multiline=False
         )
         connect_form.add_widget(self.username)
 
         connect_form.add_widget(Label(
-            text='Token:',
+            text='[color=20dd20]Token:[/color]',
             height=Window.size[1] * 0.05,
-            size_hint_y = None
+            size_hint_y = None,
+            markup=True
         ))
         self.token = TextInput(
             height=Window.size[1] * 0.05,
-            size_hint_y = None
+            size_hint_y = None,
+            multiline=False
         )
         connect_form.add_widget(self.token)
 
@@ -67,7 +72,8 @@ class ConnectPage(GridLayout):
             text = check_server_status(),
             height=Window.size[1] * 0.1,
             size_hint_y = None,
-            font_size=30
+            font_size=30,
+            markup=True
         ))
 
     def submit_button(self, instance):
@@ -89,8 +95,8 @@ class SpaceTradersApp(App):
 def check_server_status():
     server_status = SpaceTraders.get_status()
     if server_status['status_code'] == 200:
-        return f'{server_status["response"]["status"]}'
-    return 'something is wrong'
+        return f'[color=20dd20]{server_status["response"]["status"]}[/color]'
+    return '[color=20dd20]something is wrong[/color]'
 
 
 if __name__ == '__main__':
