@@ -16,9 +16,9 @@ pipenv install
 
 ``` python
 >>> from sdk import SpaceTraders
->>> s = SpaceTraders('yourUsernameHere', 'yourTokenHere')
->>> s.get_status()
+>>> SpaceTraders.get_status()
 {'response': {'user': {'username': 'test-py-client', 'credits': 0, 'ships': [], 'loans': []}}, 'status_code': 200}
+>>> s = SpaceTraders('yourUsernameHere', 'yourTokenHere')
 >>> s.get_user_info()
 {'response': {'user': {'username': 'yourUsernameHere', 'credits': 0, 'ships': [], 'loans': []}}, 'status_code': 200}
 ```

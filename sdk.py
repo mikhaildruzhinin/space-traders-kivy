@@ -38,9 +38,10 @@ class SpaceTraders(object):
         return data
 
     # game
-    def get_status(self):
+    @classmethod
+    def get_status(cls):
         '''Use to determine whether the server is alive'''
-        r = requests.get(f'{self.base_url}/game/status')
+        r = requests.get(f'{cls.base_url}/game/status')
         data = {'response': r.json(), 'status_code': r.status_code}
         return data
 
@@ -191,7 +192,7 @@ class SpaceTraders(object):
             r = requests.post(f'{self.base_url}/users/{self.username}/token')
             data = {'response': r.json(), 'status_code': r.status_code}
             r.raise_for_status()
-            self.token = data['token']
+            self.token = data['response']['token']
         except requests.exceptions.HTTPError:
             pass
         return data
