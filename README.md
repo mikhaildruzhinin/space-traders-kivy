@@ -15,7 +15,7 @@ pipenv install
 ### Getting Started
 
 ``` python
->>> from sdk import SpaceTraders
+>>> from space_traders import SpaceTraders
 >>> SpaceTraders.get_status()
 {'response': {'status': 'spacetraders is currently online and available to play'}, 'status_code': 200}
 >>> s = SpaceTraders('yourUsernameHere', 'yourTokenHere')
