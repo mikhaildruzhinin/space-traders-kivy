@@ -5,7 +5,7 @@ class SpaceTraders(object):
     '''SpaceTraders API wrapper'''
     base_url = 'https://api.spacetraders.io'
 
-    def __init__(self, username, token=None):
+    def __init__(self, username=None, token=None):
         '''Constructor'''
         self.username = username
         self.token = token
