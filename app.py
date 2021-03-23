@@ -136,8 +136,8 @@ class ConnectPage(GridLayout):
                 return None
         user_info = s.get_user_info()
         if user_info['status_code'] != 200:
-            self.error_message.text = generated_token['response']['error']['message']
-            logging.info(f'[Game        ] {generated_token["response"]["error"]["message"]}')
+            self.error_message.text = user_info['response']['error']['message']
+            logging.info(f'[Game        ] {user_info["response"]["error"]["message"]}')
             return None
         u.username = s.username
         u.user_info = user_info['response']['user']
@@ -157,7 +157,7 @@ class GamePage(GridLayout):
         super().__init__(**kwargs)
         self.rows = 2
 
-        header = Label(
+        self.header = Label(
             text=f'{u.username}    \u20B9 {u.user_info["credits"]}',
             height=Window.size[1] * 0.05,
             size_hint_y=None,
@@ -202,13 +202,13 @@ class GamePage(GridLayout):
 
         self.main_content_label = Label(
             text=f'Welcome, {u.username}',
-            width=Window.size[0] * 0.9,
             size_hint_x = None,
             color=text_color,
         )
 
-        main_content = GridLayout(cols=2)
-        sidebar = GridLayout(rows=6)
+        body = GridLayout(cols=2)
+        sidebar = GridLayout(rows=6, width=Window.size[0] * 0.1)
+        self.main_content = GridLayout(rows=6)
 
         sidebar.add_widget(self.flight_plans)
         sidebar.add_widget(self.loans)
@@ -217,11 +217,13 @@ class GamePage(GridLayout):
         sidebar.add_widget(self.ships)
         sidebar.add_widget(dummy_label)
 
-        main_content.add_widget(sidebar)
-        main_content.add_widget(self.main_content_label)
+        self.main_content.add_widget(self.main_content_label)
 
-        self.add_widget(header)
-        self.add_widget(main_content)
+        body.add_widget(sidebar)
+        body.add_widget(self.main_content)
+
+        self.add_widget(self.header)
+        self.add_widget(body)
 
     def flight_plans_button(self, instance):
         self.main_content_label.text = 'Flight plans'
