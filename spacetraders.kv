@@ -1,0 +1,122 @@
+#:kivy 2.0.0
+
+<ConnectPage>:
+    id: connect_page
+    orientation: 'vertical'
+    padding: 10
+    spacing: 10
+    username: username
+    token: token
+    error_message: error_message
+
+    Label:
+        id: header
+        text: 'Space Traders'
+        color: 0, 1, 0, 1
+        font_size: 50
+    Label:
+        id: username_label
+        text: 'Username'
+        color: 0, 1, 0, 1
+        size_hint: .33, .1
+        pos_hint: {'x': .33}
+        valign: 'bottom'
+    TextInput:
+        id: username
+        text: root.get_prev_user()[0]
+        multiline: False
+        size_hint: .33, .1
+        pos_hint: {'x': .33}
+    Label:
+        id: token_label
+        text: 'Token'
+        color: 0, 1, 0, 1
+        size_hint: .33, .1
+        pos_hint: {'x': .33}
+        valign: 'bottom'
+    TextInput:
+        id: token
+        text: root.get_prev_user()[1]
+        multiline: False
+        password: True
+        size_hint: .33, .1
+        pos_hint: {'x': .33}
+    Button:
+        id: submit
+        text: 'Submit'
+        size_hint: .20, .1
+        pos_hint: {'x': .40}
+        on_press: root.submit_button(None)
+    Label:
+        id: error_message
+        text: ''
+        color: 0, 1, 0, 1
+        size_hint: .33, .1
+        pos_hint: {'x': .33}
+    Label:
+        id: status
+        text: root.check_server_status()
+        color: 0, 1, 0, 1
+        size_hint: 1, 1
+        text_size: self.size
+        valign: 'bottom'
+        halign: 'center'
+
+<GamePage>:
+    id: game_page
+    orientation: 'vertical'
+    padding: 10
+    spacing: 10
+    username: self.get_username()
+    user_info: self.get_user_info()
+
+    BoxLayout:
+        id: header
+        orientation: 'vertical'
+        size_hint: 1, .05
+        Label:
+            id: header_label
+            text: f'{root.username}    \u20B9 {root.user_info["credits"]}'
+            color: 0, 1, 0, 1
+
+    BoxLayout:
+        id: body
+        orientation: 'horizontal'
+
+        BoxLayout:
+            id: sidebar
+            orientation: 'vertical'
+            size_hint: .2, 1
+            Button:
+                id: flight_plans
+                text: 'Flight plans'
+                size_hint: 1, .075
+                on_press: main_content.text = self.text
+            Button:
+                id: loans
+                text: 'Loans'
+                size_hint: 1, .075
+                on_press: main_content.text = self.text
+            Button:
+                id: locations
+                text: 'Locations'
+                size_hint: 1, .075
+                on_press: main_content.text = self.text
+            Button:
+                id: market
+                text: 'Market'
+                size_hint: 1, .075
+                on_press: main_content.text = self.text
+            Button:
+                id: ships
+                text: 'Ships'
+                size_hint: 1, .075
+                on_press: main_content.text = self.text
+            Label:
+                id: dummy_label
+                size_hint: 1, 1
+
+        Label:
+            id: main_content
+            text: f'Welcome, {root.username}!'
+            color: 0, 1, 0, 1
