@@ -46,10 +46,9 @@
         text: 'Submit'
         size_hint: .20, .1
         pos_hint: {'x': .40}
-        on_press: root.submit_button(None)
+        on_press: root.submit_button()
     Label:
         id: error_message
-        text: ''
         color: 0, 1, 0, 1
         size_hint: .33, .1
         pos_hint: {'x': .33}
@@ -69,6 +68,7 @@
     spacing: 10
     username: self.get_username()
     user_info: self.get_user_info()
+    main_content: main_content
 
     BoxLayout:
         id: header
@@ -91,32 +91,64 @@
                 id: flight_plans
                 text: 'Flight plans'
                 size_hint: 1, .075
-                on_press: main_content.text = self.text
+                on_press: main_content_label.text = self.text
             Button:
-                id: loans
+                id: loans_button
                 text: 'Loans'
                 size_hint: 1, .075
-                on_press: main_content.text = self.text
+                on_press: root.loans_button()
             Button:
-                id: locations
+                id: locations_button
                 text: 'Locations'
                 size_hint: 1, .075
-                on_press: main_content.text = self.text
+                on_press: main_content_label.text = self.text
             Button:
-                id: market
+                id: market_button
                 text: 'Market'
                 size_hint: 1, .075
-                on_press: main_content.text = self.text
+                on_press: main_content_label.text = self.text
             Button:
-                id: ships
+                id: ships_button
                 text: 'Ships'
                 size_hint: 1, .075
-                on_press: main_content.text = self.text
+                on_press: main_content_label.text = self.text
             Label:
                 id: dummy_label
                 size_hint: 1, 1
 
-        Label:
+        BoxLayout:
             id: main_content
-            text: f'Welcome, {root.username}!'
-            color: 0, 1, 0, 1
+            orientation: 'vertical'
+            Label:
+                id: main_content_label
+                text: f'Welcome, {root.username}!'
+                color: 0, 1, 0, 1
+            Button:
+                id: footer
+                text: 'text'
+                color: 0, 1, 0, 1
+                size_hint: 1, .05
+
+<Loans>:
+    id: loans
+    orientation: 'horizontal'
+    user_loans_label: user_loans_label
+
+    RV:
+        id: rv_test
+        size_hint: .4, 1
+    Label:
+        id: user_loans_label
+        color: 0, 1, 0, 1
+        text_size: self.size
+        valign: 'top'
+        halign: 'center'
+
+<RV>:
+    viewclass: 'Button'
+    RecycleBoxLayout:
+        default_size: None, 200
+        default_size_hint: 1, None
+        size_hint_y: None
+        height: self.minimum_height
+        orientation: 'vertical'

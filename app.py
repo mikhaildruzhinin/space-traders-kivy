@@ -2,10 +2,12 @@ import kivy
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.recycleview import RecycleView
 from kivy.clock import Clock
 from space_traders import SpaceTraders
 from pathlib import Path
 import logging
+import json
 
 
 kivy.require('2.0.0')
@@ -25,7 +27,7 @@ class ConnectPage(BoxLayout):
             return d[0], d[1]
         return '', ''
 
-    def submit_button(self, instance):
+    def submit_button(self, instance=None):
         if not self.username.text:
             self.error_message.text = 'Username is required.'
             logging.info('[Game        ] Username is required')
@@ -47,10 +49,21 @@ class ConnectPage(BoxLayout):
             f.write(f'{s.username},{s.token}')
         Clock.schedule_once(self.log_in, 0.1)
         logging.info(f'[Game        ] {s.username} is logged in')
-        
+
     def log_in(self, _):
         app.create_game_page()
         app.screen_manager.current = 'Game'
+
+
+class Loans(BoxLayout):
+    pass
+
+
+class RV(RecycleView):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        loans = s.get_loans()['response']['loans']
+        self.data = [{'text': json.dumps(loan, indent=0).strip('\{\}').strip()} for loan in loans]
 
 
 class GamePage(BoxLayout):
@@ -59,6 +72,12 @@ class GamePage(BoxLayout):
 
     def get_user_info(self):
         return s.get_user_info()['response']['user']
+
+    def loans_button(self, instance=None):
+        self.main_content.clear_widgets()
+        self.loans = Loans()
+        self.main_content.add_widget(self.loans)
+        self.loans.user_loans_label.text = str(self.user_info['loans'])
 
 
 class SpaceTradersApp(App):
