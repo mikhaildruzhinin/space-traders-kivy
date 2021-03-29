@@ -63,7 +63,19 @@ class RV(RecycleView):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         loans = s.get_loans()['response']['loans']
-        self.data = [{'text': json.dumps(loan, indent=0).strip('\{\}').strip()} for loan in loans]
+        self.data = [{'text': self.__format_loan_text(loan)} for loan in loans]
+
+    def __format_loan_text(self, loan):
+        bool_to_str = {
+            True: 'yes',
+            False: 'no',
+        }
+        text = f'\ntype: {loan["type"]}\n'
+        text += f'amount: \u20B9 {loan["amount"]}\n'
+        text += f'rate: {loan["rate"]} %\n'
+        text += f'term: {loan["termInDays"]} days\n'
+        text += f'required collateral: {bool_to_str[loan["collateralRequired"]]}\n'
+        return text
 
 
 class GamePage(BoxLayout):

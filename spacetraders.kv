@@ -47,6 +47,14 @@
         size_hint: .20, .1
         pos_hint: {'x': .40}
         on_press: root.submit_button()
+        color: 0, 1, 0, 1
+        background_color: 0, 1, 0, 1
+        canvas.before:
+            Color:
+                rgba: 0, 1, 0, 1
+            Line:
+                width: 2
+                rectangle: self.x, self.y, self.width, self.height
     Label:
         id: error_message
         color: 0, 1, 0, 1
@@ -74,10 +82,24 @@
         id: header
         orientation: 'vertical'
         size_hint: 1, .05
+        padding: 5
+        spacing: 5
         Label:
             id: header_label
             text: f'{root.username}    \u20B9 {root.user_info["credits"]}'
             color: 0, 1, 0, 1
+            background_color: 0, 1, 0, 1
+            canvas.before:
+                Color:
+                    rgba: 0, 1, 0, 1
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+                Color:
+                    rgba: 0, 1, 0, .33
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
 
     BoxLayout:
         id: body
@@ -87,45 +109,100 @@
             id: sidebar
             orientation: 'vertical'
             size_hint: .2, 1
+            padding: 5
+            spacing: 5
             Button:
                 id: flight_plans
                 text: 'Flight plans'
                 size_hint: 1, .075
                 on_press: main_content_label.text = self.text
+                color: 0, 1, 0, 1
+                background_color: 0, 1, 0, 1
+                canvas.before:
+                    Color:
+                        rgba: 0, 1, 0, 1
+                    Line:
+                        width: 2
+                        rectangle: self.x, self.y, self.width, self.height
             Button:
                 id: loans_button
                 text: 'Loans'
                 size_hint: 1, .075
                 on_press: root.loans_button()
+                color: 0, 1, 0, 1
+                background_color: 0, 1, 0, 1
+                canvas.before:
+                    Color:
+                        rgba: 0, 1, 0, 1
+                    Line:
+                        width: 2
+                        rectangle: self.x, self.y, self.width, self.height
             Button:
                 id: locations_button
                 text: 'Locations'
                 size_hint: 1, .075
                 on_press: main_content_label.text = self.text
+                color: 0, 1, 0, 1
+                background_color: 0, 1, 0, 1
+                canvas.before:
+                    Color:
+                        rgba: 0, 1, 0, 1
+                    Line:
+                        width: 2
+                        rectangle: self.x, self.y, self.width, self.height
             Button:
                 id: market_button
                 text: 'Market'
                 size_hint: 1, .075
                 on_press: main_content_label.text = self.text
+                color: 0, 1, 0, 1
+                background_color: 0, 1, 0, 1
+                canvas.before:
+                    Color:
+                        rgba: 0, 1, 0, 1
+                    Line:
+                        width: 2
+                        rectangle: self.x, self.y, self.width, self.height
             Button:
                 id: ships_button
                 text: 'Ships'
                 size_hint: 1, .075
                 on_press: main_content_label.text = self.text
+                color: 0, 1, 0, 1
+                background_color: 0, 1, 0, 1
+                canvas.before:
+                    Color:
+                        rgba: 0, 1, 0, 1
+                    Line:
+                        width: 2
+                        rectangle: self.x, self.y, self.width, self.height
             Label:
                 id: dummy_label
                 size_hint: 1, 1
+                canvas.before:
+                    Color:
+                        rgba: 0, 1, 0, 1
+                    Line:
+                        width: 2
+                        rectangle: self.x, self.y, self.width, self.height
+                    Color:
+                        rgba: 0, 1, 0, .33
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
 
         BoxLayout:
-            id: main_content
+            id: main
             orientation: 'vertical'
+            BoxLayout:
+                id: main_content
+                orientation: 'vertical'
+                Label:
+                    id: main_content_label
+                    text: f'Welcome, {root.username}!'
+                    color: 0, 1, 0, 1
             Label:
-                id: main_content_label
-                text: f'Welcome, {root.username}!'
-                color: 0, 1, 0, 1
-            Button:
                 id: footer
-                text: 'text'
                 color: 0, 1, 0, 1
                 size_hint: 1, .05
 
@@ -152,3 +229,11 @@
         size_hint_y: None
         height: self.minimum_height
         orientation: 'vertical'
+        color: 0, 1, 0, 1
+        background_color: 0, 1, 0, 1
+        canvas.before:
+            Color:
+                rgba: 0, 1, 0, 1
+            Line:
+                width: 2
+                rectangle: self.x, self.y, self.width, self.height
