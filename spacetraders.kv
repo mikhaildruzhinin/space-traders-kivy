@@ -41,20 +41,13 @@
         password: True
         size_hint: .33, .1
         pos_hint: {'x': .33}
-    Button:
+    CustomButton:
         id: submit
         text: 'Submit'
         size_hint: .20, .1
         pos_hint: {'x': .40}
         on_press: root.submit_button()
-        color: 0, 1, 0, 1
-        background_color: 0, 1, 0, 1
-        canvas.before:
-            Color:
-                rgba: 0, 1, 0, 1
-            Line:
-                width: 2
-                rectangle: self.x, self.y, self.width, self.height
+
     Label:
         id: error_message
         color: 0, 1, 0, 1
@@ -84,7 +77,7 @@
         size_hint: 1, .05
         padding: 5
         spacing: 5
-        Label:
+        CustomButton:
             id: header_label
             text: f'{root.username}    \u20B9 {root.user_info["credits"]}'
             color: 0, 1, 0, 1
@@ -111,71 +104,26 @@
             size_hint: .2, 1
             padding: 5
             spacing: 5
-            Button:
+            CustomButton:
                 id: flight_plans
                 text: 'Flight plans'
-                size_hint: 1, .075
                 on_press: main_content_label.text = self.text
-                color: 0, 1, 0, 1
-                background_color: 0, 1, 0, 1
-                canvas.before:
-                    Color:
-                        rgba: 0, 1, 0, 1
-                    Line:
-                        width: 2
-                        rectangle: self.x, self.y, self.width, self.height
-            Button:
+            CustomButton:
                 id: loans_button
                 text: 'Loans'
-                size_hint: 1, .075
                 on_press: root.loans_button()
-                color: 0, 1, 0, 1
-                background_color: 0, 1, 0, 1
-                canvas.before:
-                    Color:
-                        rgba: 0, 1, 0, 1
-                    Line:
-                        width: 2
-                        rectangle: self.x, self.y, self.width, self.height
-            Button:
+            CustomButton:
                 id: locations_button
                 text: 'Locations'
-                size_hint: 1, .075
                 on_press: main_content_label.text = self.text
-                color: 0, 1, 0, 1
-                background_color: 0, 1, 0, 1
-                canvas.before:
-                    Color:
-                        rgba: 0, 1, 0, 1
-                    Line:
-                        width: 2
-                        rectangle: self.x, self.y, self.width, self.height
-            Button:
+            CustomButton:
                 id: market_button
                 text: 'Market'
-                size_hint: 1, .075
                 on_press: main_content_label.text = self.text
-                color: 0, 1, 0, 1
-                background_color: 0, 1, 0, 1
-                canvas.before:
-                    Color:
-                        rgba: 0, 1, 0, 1
-                    Line:
-                        width: 2
-                        rectangle: self.x, self.y, self.width, self.height
-            Button:
+            CustomButton:
                 id: ships_button
                 text: 'Ships'
-                size_hint: 1, .075
                 on_press: main_content_label.text = self.text
-                color: 0, 1, 0, 1
-                background_color: 0, 1, 0, 1
-                canvas.before:
-                    Color:
-                        rgba: 0, 1, 0, 1
-                    Line:
-                        width: 2
-                        rectangle: self.x, self.y, self.width, self.height
             Label:
                 id: dummy_label
                 size_hint: 1, 1
@@ -222,18 +170,21 @@
         halign: 'center'
 
 <RV>:
-    viewclass: 'Button'
+    viewclass: 'CustomButton'
     RecycleBoxLayout:
         default_size: None, 200
         default_size_hint: 1, None
         size_hint_y: None
         height: self.minimum_height
         orientation: 'vertical'
-        color: 0, 1, 0, 1
-        background_color: 0, 1, 0, 1
-        canvas.before:
-            Color:
-                rgba: 0, 1, 0, 1
-            Line:
-                width: 2
-                rectangle: self.x, self.y, self.width, self.height
+
+<CustomButton@Button>:
+    size_hint: 1, .075
+    color: 0, 1, 0, 1
+    background_color: 0, 1, 0, 1
+    canvas.before:
+        Color:
+            rgba: 0, 1, 0, 1
+        Line:
+            width: 2
+            rectangle: self.x, self.y, self.width, self.height
