@@ -4,21 +4,31 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.recycleview import RecycleView
 from kivy.clock import Clock
+from kivy.network.urlrequest import UrlRequest
 from space_traders import SpaceTraders
 from pathlib import Path
 import logging
 import json
+import certifi
 
 
 kivy.require('2.0.0')
 
 
 class ConnectPage(BoxLayout):
-    def check_server_status(self):
-        server_status = SpaceTraders.get_status()
-        if server_status['status_code'] == 200:
-            return f'{server_status["response"]["status"]}'
-        return 'something is wrong'
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        url = 'https://api.spacetraders.io/game/status'
+        self.server_status = UrlRequest(
+            url=url,
+            on_success=self.check_server_status,
+            on_failure=self.check_server_status,
+            ca_file=certifi.where()
+        )
+
+    def check_server_status(self, *args):
+        logging.info(f'[Game        ] {self.server_status.result["status"]}')
+        self.status.text = self.server_status.result['status']
 
     def get_prev_user(self):
         if Path('user_details.txt').is_file():

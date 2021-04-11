@@ -8,6 +8,7 @@
     username: username
     token: token
     error_message: error_message
+    status: status
 
     Label:
         id: header
@@ -55,7 +56,7 @@
         pos_hint: {'x': .33}
     Label:
         id: status
-        text: root.check_server_status()
+        text: ''
         color: 0, 1, 0, 1
         size_hint: 1, 1
         text_size: self.size
@@ -77,7 +78,7 @@
         size_hint: 1, .05
         padding: 5
         spacing: 5
-        CustomButton:
+        Label:
             id: header_label
             text: f'{root.username}    \u20B9 {root.user_info["credits"]}'
             color: 0, 1, 0, 1
