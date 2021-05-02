@@ -13,16 +13,18 @@ import certifi
 
 
 kivy.require('2.0.0')
+base_url = 'https://api.spacetraders.io'
 
 
 class ConnectPage(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        url = 'https://api.spacetraders.io/game/status'
+        url = f'{base_url}/game/status'
         self.server_status = UrlRequest(
             url=url,
             on_success=self.check_server_status,
             on_failure=self.check_server_status,
+            method='GET',
             ca_file=certifi.where()
         )
 
@@ -38,27 +40,59 @@ class ConnectPage(BoxLayout):
         return '', ''
 
     def submit_button(self, instance=None):
+        self.error_message.text = ''
         if not self.username.text:
             self.error_message.text = 'Username is required.'
-            logging.info('[Game        ] Username is required')
+            logging.info(f'[Game        ] {self.error_message.text}')
             return None
-        s.username = self.username.text
-        s.token = self.token.text
-        if not s.token:
-            generated_token = s.generate_token()
-            if generated_token['status_code'] != 201:
-                self.error_message.text = generated_token['response']['error']['message']
-                logging.info(f'[Game        ] {generated_token["response"]["error"]["message"]}')
-                return None
-        user_info = s.get_user_info()
-        if user_info['status_code'] != 200:
-            self.error_message.text = user_info['response']['error']['message']
-            logging.info(f'[Game        ] {user_info["response"]["error"]["message"]}')
+        if not self.token.text:
+            self.generate_token()
             return None
+        if self.error_message.text:
+            return None
+        else:
+            self.get_user_info()
+
+
+    def generate_token(self):
+        self.generated_token = UrlRequest(
+            url=f'{base_url}/users/{self.username.text}/token',
+            on_success=self.get_new_token,
+            on_failure=self.show_generate_token_error_message,
+            method='POST',
+            ca_file=certifi.where()
+        )
+
+    def get_new_token(self, *args):
+        self.token.text = self.generated_token.result['token']
+
+
+    def show_generate_token_error_message(self, *args):
+        self.error_message.text = self.generated_token.result['error']['message']
+        logging.info(f'[Game        ] {self.generated_token.result["error"]["message"]}')
+
+    def get_user_info(self, *args):
+        self.user_info = UrlRequest(
+            url=f'{base_url}/users/{self.username.text}',
+            on_success=self.start_game,
+            on_failure=self.show_user_info_error_message,
+            req_headers={'Authorization': f'Bearer {self.token.text}'},
+            method='GET',
+            ca_file=certifi.where()
+        )
+
+    def show_user_info_error_message(self, *args):
+        self.error_message.text = self.user_info.result['error']['message']
+        logging.info(f'[Game        ] {self.user_info.result["error"]["message"]}')
+
+    def start_game(self, *args):
         with open('user_details.txt', 'wt') as f:
-            f.write(f'{s.username},{s.token}')
+            f.write(f'{self.username.text},{self.token.text}')
+        app.username = self.username.text
+        app.token = self.token.text
+        app.user_info = self.user_info.result['user']
         Clock.schedule_once(self.log_in, 0.1)
-        logging.info(f'[Game        ] {s.username} is logged in')
+        logging.info(f'[Game        ] {self.username.text} is logged in')
 
     def log_in(self, _):
         app.create_game_page()
@@ -73,9 +107,9 @@ class RV(RecycleView):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         loans = s.get_loans()['response']['loans']
-        self.data = [{'text': self.__format_loan_text(loan)} for loan in loans]
+        self.data = [{'text': self.format_loan_text(loan)} for loan in loans]
 
-    def __format_loan_text(self, loan):
+    def format_loan_text(self, loan):
         bool_to_str = {
             True: 'yes',
             False: 'no',
@@ -89,17 +123,11 @@ class RV(RecycleView):
 
 
 class GamePage(BoxLayout):
-    def get_username(self):
-        return s.username
-
-    def get_user_info(self):
-        return s.get_user_info()['response']['user']
-
     def loans_button(self, instance=None):
         self.main_content.clear_widgets()
         self.loans = Loans()
         self.main_content.add_widget(self.loans)
-        self.loans.user_loans_label.text = str(self.user_info['loans'])
+        self.loans.user_loans_label.text = str(app.user_info['loans'])
 
 
 class SpaceTradersApp(App):

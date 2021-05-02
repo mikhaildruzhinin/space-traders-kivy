@@ -68,8 +68,8 @@
     orientation: 'vertical'
     padding: 10
     spacing: 10
-    username: self.get_username()
-    user_info: self.get_user_info()
+    username: app.username
+    user_info: app.user_info
     main_content: main_content
 
     BoxLayout:
@@ -112,7 +112,8 @@
             CustomButton:
                 id: loans_button
                 text: 'Loans'
-                on_press: root.loans_button()
+                # on_press: root.loans_button()
+                on_press: main_content_label.text = self.text
             CustomButton:
                 id: locations_button
                 text: 'Locations'
