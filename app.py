@@ -65,6 +65,7 @@ class ConnectPage(BoxLayout):
 
     def get_new_token(self, *args):
         self.token.text = self.generated_token.result['token']
+        self.get_user_info()
 
 
     def show_generate_token_error_message(self, *args):
